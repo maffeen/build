@@ -234,8 +234,8 @@ include $(BUILD_SYSTEM)/envsetup.mk
 FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 
 -include vendor/extra/BoardConfigExtra.mk
-ifneq ($(MAGMA_BUILD),)
-include vendor/magma/config/BoardConfigMagma.mk
+ifneq ($(FLUID_BUILD),)
+include vendor/fluid/config/BoardConfigFluid.mk
 endif
 
 # The build system exposes several variables for where to find the kernel
@@ -1177,11 +1177,11 @@ endif
 DEFAULT_DATA_OUT_MODULES := ltp $(ltp_packages) $(kselftest_modules)
 .KATI_READONLY := DEFAULT_DATA_OUT_MODULES
 
-ifneq ($(MAGMA_BUILD),)
-ifneq ($(wildcard device/magma/sepolicy/common/sepolicy.mk),)
+ifneq ($(FLUID_BUILD),)
+ifneq ($(wildcard device/fluid/sepolicy/common/sepolicy.mk),)
 ## We need to be sure the global selinux policies are included
 ## last, to avoid accidental resetting by device configs
-$(eval include device/magma/sepolicy/common/sepolicy.mk)
+$(eval include device/fluid/sepolicy/common/sepolicy.mk)
 endif
 endif
 

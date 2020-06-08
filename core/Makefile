@@ -415,7 +415,7 @@ endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 	        TARGET_BUILD_FLAVOR="$(TARGET_BUILD_FLAVOR)" \
 	        TARGET_DEVICE="$(TARGET_DEVICE)" \
-	        MAGMA_DEVICE="$(TARGET_DEVICE)" \
+	        FLUID_DEVICE="$(TARGET_DEVICE)" \
 	        PRODUCT_NAME="$(TARGET_PRODUCT)" \
 	        PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 	        PRODUCT_DEFAULT_LOCALE="$(call get-default-product-locale,$(PRODUCT_LOCALES))" \
@@ -3673,11 +3673,11 @@ endif
 $(BUILT_OTATOOLS_PACKAGE): $(OTATOOLS) $(OTATOOLS_DEPS) $(OTATOOLS_RELEASETOOLS) $(SOONG_ZIP)
 	@echo "Package OTA tools: $@"
 	$(hide) rm -rf $@ $(zip_root)
-	$(hide) mkdir -p $(dir $@) $(zip_root)/bin $(zip_root)/framework $(zip_root)/releasetools $(zip_root)/vendor/magma/build/tools
+	$(hide) mkdir -p $(dir $@) $(zip_root)/bin $(zip_root)/framework $(zip_root)/releasetools $(zip_root)/vendor/fluid/build/tools
 	$(call copy-files-with-structure,$(OTATOOLS),$(HOST_OUT)/,$(zip_root))
 	$(hide) cp $(SOONG_ZIP) $(zip_root)/bin/
 	$(hide) cp -r -d -p build/make/tools/releasetools/* $(zip_root)/releasetools
-	$(hide) cp -p vendor/magma/build/tools/getb64key.py $(zip_root)/vendor/magma/build/tools/
+	$(hide) cp -p vendor/fluid/build/tools/getb64key.py $(zip_root)/vendor/fluid/build/tools/
 	$(hide) rm -rf $@ $(zip_root)/releasetools/*.pyc
 	$(hide) $(SOONG_ZIP) -o $@ -C $(zip_root) -D $(zip_root) \
 	  -C . $(addprefix -f ,$(OTATOOLS_DEPS))
@@ -4317,7 +4317,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): .KATI_IMPLICIT_OUTPUTS := $(INTERNAL_OTA_METADAT
 ifeq ($(WITH_GMS),true)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
 else
-ifneq ($(MAGMA_BUILD),)
+ifneq ($(FLUID_BUILD),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
