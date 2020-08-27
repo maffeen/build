@@ -244,31 +244,31 @@ class EdifyGenerator(object):
     """Log a message to the screen (if the logs are visible)."""
     self.script.append('ui_print("%s");' % (message,))
 
-  def PrintPixelExperienceBanner(self, is_plus, android_version, build_id, build_date,
-                                  security_patch, device, prev_build_id=None,
+  def PrintFluidBanner(self, android_version, fluid_version, build_id, build_date,
+                                  security_patch, device, is_gapps, prev_build_id=None,
                                   prev_build_date=None, prev_security_patch=None):
     self.Print("----------------------------------------------")
-    if is_plus:
-      self.Print("        PixelExperience (Plus edition)")
-      self.Print("                by jhenrique09")
-    else:
-      self.Print("              PixelExperience")
-      self.Print("              by jhenrique09")
+    self.Print("                 ProjectFluid")
     self.Print("----------------------------------------------")
-    self.Print(" Android version: %s"%(android_version))
+    self.Print(" Android Version: %s"%(android_version))
+    self.Print(" Fluid Version: %s"%(fluid_version))
     if prev_build_id != None and prev_build_id != build_id:
-      self.Print(" Build id: %s -> %s"%(prev_build_id, build_id))
+      self.Print(" Build ID: %s -> %s"%(prev_build_id, build_id))
     else:
-      self.Print(" Build id: %s"%(build_id))
+      self.Print(" Build ID: %s"%(build_id))
     if prev_build_date != None and prev_build_date != build_date:
-      self.Print(" Build date: %s -> %s"%(prev_build_date, build_date))
+      self.Print(" Build Date: %s -> %s"%(prev_build_date, build_date))
     else:
-      self.Print(" Build date: %s"%(build_date))
+      self.Print(" Build Date: %s"%(build_date))
     if prev_security_patch != None and prev_security_patch != security_patch:
-      self.Print(" Security patch: %s -> %s"%(prev_security_patch, security_patch))
+      self.Print(" Security Patch: %s -> %s"%(prev_security_patch, security_patch))
     else:
-      self.Print(" Security patch: %s"%(security_patch))
+      self.Print(" Security Patch: %s"%(security_patch))
     self.Print(" Device: %s"%(device))
+    if is_gapps:
+      self.Print(" GApps Build: Yes")
+    else:
+      self.Print(" GApps Build: No")
     self.Print("----------------------------------------------")
 
   def TunePartition(self, partition, *options):
@@ -457,6 +457,6 @@ class EdifyGenerator(object):
 
   def AddPixelExperienceVersionAssertion(self, error_msg, source_version):
     prop_path = "/system_root/system/build.prop"
-    source_version_prop = "org.pixelexperience.version.display"
+    source_version_prop = "com.fluid.version.display"
     self.script.append('assert(try_file_getprop("%s", "%s") == "%s" || abort("%s"));' % (prop_path, source_version_prop, source_version, error_msg))
 
